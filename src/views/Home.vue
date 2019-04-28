@@ -3,12 +3,12 @@ v-layout#Home(fill-height column)
     .main-pane
         template
             v-container(fluid)
+                v-card-title 教卓
                 v-layout(align-start justify-start fill-height column xs12 md12)
-                v-card-title.center 教卓
                     v-flex
                         v-layout(row wrap justify-center)
-                            v-card.card-style.ma-2(v-for='i in 43' :key='i' xs2 md2)
-                                h1.center {{ i }}
+                            v-card.card-style.ma-2( v-for='i in 43' :key='i')
+                                h1.center(xs2 md2) {{ i }}
         //- v-btn(@click='onClick' v-for='i in nameList' :key='i') {{ i.num }}
 </template>
 
