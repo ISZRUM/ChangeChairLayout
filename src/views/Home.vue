@@ -21,7 +21,7 @@ v-layout#Home(fill-height column)
                                                 v-flex(xs12 sm8 md8)
                                                     v-text-field(label='First name')
                                                 v-flex(xs12 sm4 md4)
-                                                    v-text-field(v-model='text' label='Attendance number' required)
+                                                    v-text-field(label='Attendance number' required)
                                         v-card-actions
                                             v-spacer
                                             v-btn(color='blue darken-1' flat @click='dialogInfo') Save
