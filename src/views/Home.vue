@@ -3,29 +3,36 @@ v-layout#Home(fill-height column)
     .main-pane
         template
             v-container(fluid)
-                v-card-title 教卓
-                v-layout(justify-center fill-height column xs12 md12)
-                    v-flex
-                        v-layout(row wrap)
-                            v-dialog(v-model='dialog' presistent max-width='600px')
-                                template(v-slot:activator='{ on }')
-                                    v-btn.card-style.ma-2(v-on='on' v-for='i in $store.state.className' :key='i' @click='onClick(i)')
-                                        h1.center(xs2 md2) {{ i.num }}
-                                //- dialog card information
-                                v-card
-                                    v-card-title
-                                        span.headline Chair Information
-                                    v-card-text
-                                        v-container(grid-list-md)
-                                            v-layout(wrap)
-                                                v-flex(xs12 sm8 md8)
-                                                    v-text-field(label='First name')
-                                                v-flex(xs12 sm4 md4)
-                                                    v-text-field(label='Attendance number' required)
-                                        v-card-actions
-                                            v-spacer
-                                            v-btn(color='blue darken-1' flat @click='dialogInfo') Save
-                                            v-btn(color='blue darken-1' flat @click='dialogInfo') Close
+                v-card.ma-3.pa-1
+                    v-layout(justify-center)
+                        v-card.orange.lighten-3.ma-2(width='15vw' :aspect-ratio='9/16')
+                            v-card-text 教卓
+                    v-layout(justify-center column)
+                        v-flex
+                            v-layout(row wrap align-center justify-space-around)
+                                v-dialog(v-model='dialog' presistent max-width='600px')
+                                    template(v-slot:activator='{ on }')
+                                        v-card.primary.lighten-4.mb-2(v-for='member in 43' :key='member' v-on='on' width='calc(100vw/7.5)' :aspect-ratio='1' @click='onClick(member)')
+                                            v-card-text(canter) {{ member }}
+                                    //- dialog card information
+                                    v-card
+                                        v-card-title
+                                            span.headline Chair Information
+                                        v-card-text
+                                            v-container(grid-list-md)
+                                                v-layout(wrap)
+                                                    v-flex(xs12 sm8 md8)
+                                                        v-text-field(label='First name' v-model='hoge.name')
+                                                    v-flex(xs12 sm4 md4)
+                                                        v-text-field(label='Attendance number' v-model='hoge.an' required)
+                                            v-card-actions
+                                                v-spacer
+                                                v-btn(color='blue darken-1' flat @click='false') Save
+                                                v-btn(color='blue darken-1' flat @click='false') Close
+
+    p hoge {{this.hoge}}
+    //- p huga {{this.huga}}
+    p member {{this.member}}
 
 </template>
 
@@ -39,15 +46,21 @@ import HelloWorld from '@/components/HelloWorld.vue';
     },
 })
 export default class Home extends Vue {
+
+    protected hoge = 0;
+    protected huga = 0;
+    protected an = 0 ;
     protected dialog = false;
     protected text = '';
-    protected max = 43;
-    protected async dialogInfo() {
-        this.dialog = false;
-        return 33;
+
+    protected onClick(member: number) {
+        this.hoge = member;
     }
-    protected async onClick(i: number) {
-        // await this.$vdialog.alert();
+    protected change(member: number, hoge: number) {
+        this.huga = hoge;
+        hoge = member;
+        member = this.huga;
+        this.dialog = false;
     }
 }
 </script>
@@ -65,7 +78,7 @@ html
     .center
         text-align :center;
     .card-style
-        width :14%;
-        min-width : 10%;
+        // width :14%;
+        // min-width : 10%;
         height :4rem;
 </style>
