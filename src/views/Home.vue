@@ -9,7 +9,7 @@ v-layout#Home(fill-height column)
                         v-layout(row wrap)
                             v-dialog(v-model='dialog' presistent max-width='600px')
                                 template(v-slot:activator='{ on }')
-                                    v-btn.card-style.ma-2(v-on='on' v-for='i in $store.state.className' :key='i')
+                                    v-btn.card-style.ma-2(v-on='on' v-for='i in $store.state.className' :key='i' @click='onClick(i)')
                                         h1.center(xs2 md2) {{ i.num }}
                                 //- dialog card information
                                 v-card
@@ -46,6 +46,9 @@ export default class Home extends Vue {
         this.dialog = false;
         return 33;
     }
+    protected async onClick(i: number) {
+        // await this.$vdialog.alert();
+    }
 }
 </script>
 
@@ -56,7 +59,7 @@ html
     scroll-view: true;
     // static-view: true;
 
-#Home
+#Homeh
     .main-pane
         main-pane();
     .center
