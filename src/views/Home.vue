@@ -62,6 +62,7 @@ export default class Home extends Vue {
             this.num[i] = String(i + 1);
         }
         this.socket.on('all_seats' , (seats: string) => {
+            console.log(seats);
             const jseats = JSON.parse(seats);
             for (const seat of jseats) {
                 this.insertNum(seat.name, seat.position);
