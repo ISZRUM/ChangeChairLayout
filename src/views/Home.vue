@@ -21,7 +21,7 @@ v-layout#Home(fill-height column)
                                             v-flex(xs12 sm12 md12)
                                                 v-text-field(label='position-number' v-model='res_pos' required)
                                             v-flex(xs12 sm12 md12)
-                                                v-text-field(label='password' v-model='res_pass' required) {{ maskMsg() }}
+                                                v-text-field(label='password' v-model='msg.mask' required) {{ maskMsg() }}
                                             v-card-actions(xs12 sm8 md6)
                                                 v-btn(color='blue darken-1' flat @click='onSend') Send
                                             v-card-actions(xs12 sm4 md6)
@@ -82,6 +82,7 @@ export default class Home extends Vue {
             passward: this.res_pass,
         };
         this.socket.emit('res_seat', JSON.stringify(myJson));
+        console.log(myJson);
         [ this.res_pass, this.msg.mask ] = ['' , ''];
         this.res_anum = 0;
         this.res_pos = 0;
@@ -102,6 +103,8 @@ export default class Home extends Vue {
         if (char !== '*') {
             this.res_pass += char;   // 末尾にマスク前の文字列を追加
             this.msg.mask = this.msg.mask.replace(/\S/g, '*');  // 全ての文字を置き換える
+            console.log(this.res_pass);
+            console.log(this.msg.mask)
         }
     }
 }
