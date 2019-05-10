@@ -63,18 +63,18 @@ export default class Home extends Vue {
             this.num[i] = String(i + 1);
         }
         this.socket.on('all_seats' , (seats: string) => {
-            console.log(seats);
+            // console.log(seats);
             const jseats = JSON.parse(seats);
             for (const seat of jseats) {
-                this.insertNum(seat.name, seat.position);
+                this.insertNum(seat.name, parseInt(seat.position, 10));
             }
         });
         this.socket.on('new_seat', (seat: string) => {
-            console.log(seat);
+            // console.log(seat);
             const jseats = JSON.parse(seat);
             this.insertNum(jseats.name, parseInt(jseats.position, 10));
-            console.log(jseats.position);
-            typeof(jseats.position);
+            // console.log(jseats.position);
+            // typeof(jseats.position);
         });
     }
 
