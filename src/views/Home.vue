@@ -81,8 +81,9 @@ export default class Home extends Vue {
             position: this.res_pos,
             passward: this.res_pass,
         };
+
         this.socket.emit('res_seat', JSON.stringify(myJson));
-        // console.log(myJson);
+        console.log(myJson);
         [ this.res_pass, this.msg.mask ] = ['' , ''];
         this.res_anum = 0;
         this.res_pos = 0;
@@ -94,6 +95,7 @@ export default class Home extends Vue {
         //     this.num[i] = (`${i + 1}`);
         // }
         this.num[pos] = name;
+        console.log(this.num[pos]);
     }
 
     protected maskMsg() {
@@ -103,8 +105,7 @@ export default class Home extends Vue {
         if (char !== '*') {
             this.res_pass += char;   // 末尾にマスク前の文字列を追加
             this.msg.mask = this.msg.mask.replace(/\S/g, '*');  // 全ての文字を置き換える
-            // console.log(this.res_pass);
-            // console.log(this.msg.mask);
+            console.log(this.res_pass);
         }
     }
 }
