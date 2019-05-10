@@ -53,6 +53,7 @@ export default class Home extends Vue {
     protected res_anum = 0;
     protected res_pos = 0;
     protected res_pass = '';
+    // protected res_name = '';
     protected msg = {
         mask: '',
     };
@@ -69,8 +70,11 @@ export default class Home extends Vue {
             }
         });
         this.socket.on('new_seat', (seat: string) => {
+            console.log(seat);
             const jseats = JSON.parse(seat);
-            this.insertNum(jseats.name, jseats.position);
+            this.insertNum(jseats.name, parseInt(jseats.position, 10));
+            console.log(jseats.position);
+            console.log(Number instanceof jseats.position);
         });
     }
 
@@ -83,10 +87,13 @@ export default class Home extends Vue {
             id: this.res_anum,  // attendance number
             position: this.res_pos,
             passward: this.res_pass,
+            // name: this,res_name,
         };
 
         this.socket.emit('res_seat', JSON.stringify(myJson));
+        // let a = this.insertNum(myJson.id, myJson.position);
         // console.log(myJson);
+        // console.log(a);
         [ this.res_pass, this.msg.mask ] = ['' , ''];
         this.res_anum = 0;
         this.res_pos = 0;
@@ -94,10 +101,8 @@ export default class Home extends Vue {
     }
 
     protected insertNum(name: string, pos: number ) {
-        // for (let i = 0; i < 43; i++) {
-        //     this.num[i] = (`${i + 1}`);
-        // }
         this.num[pos] = name;
+        this.num.push();
         // console.log(this.num[pos]);
     }
 
