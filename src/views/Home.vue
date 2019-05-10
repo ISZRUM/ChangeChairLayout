@@ -29,10 +29,10 @@ v-layout#Home(fill-height column)
                     v-layout(justify-center column)
                         v-flex
                             v-layout(row wrap align-center justify-space-around)
-                                v-dialog(v-model='dialog' presistent max-width='600px')
-                                    template(v-slot:activator='{ on }')
-                                        v-card.primary.lighten-4.mb-2(v-for='i in num' :key='i' width='calc(100vw/7.5)' :aspect-ratio='1')
-                                            v-card-text(canter) {{ i }}
+                                //- v-dialog(v-model='dialog' presistent max-width='600px')
+                                //-     template(v-slot:activator='{ on }')
+                                v-card.primary.lighten-4.mb-2(v-for='i in num' :key='i' width='calc(100vw/7.5)' :aspect-ratio='1')
+                                    v-card-text(canter) {{ i }}
 
 </template>
 
@@ -43,7 +43,6 @@ import io from 'socket.io-client';
 
 @Component({
     components: {
-        HelloWorld,
     },
 })
 export default class Home extends Vue {
@@ -78,7 +77,7 @@ export default class Home extends Vue {
         }
 
         const myJson = {
-            id: this.res_anum,
+            id: this.res_anum,  // attendance number
             position: this.res_pos,
             passward: this.res_pass,
         };
@@ -86,7 +85,7 @@ export default class Home extends Vue {
         [ this.res_pass, this.msg.pre ] = ['' , ''];
         this.res_anum = 0;
         this.res_pos = 0;
-        this.dialog = false;
+        this.dialog = false;    // dialogを閉じる
     }
 
     protected insertNum(name: string, pos: number ) {
