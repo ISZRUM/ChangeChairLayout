@@ -54,7 +54,7 @@ export default class Home extends Vue {
     protected res_pos = 0;
     protected res_pass = '';
     protected msg = {
-        pre: '',
+        mask: '',
     };
     // 初期状態
     protected created() {
@@ -82,7 +82,7 @@ export default class Home extends Vue {
             passward: this.res_pass,
         };
         this.socket.emit('res_seat', JSON.stringify(myJson));
-        [ this.res_pass, this.msg.pre ] = ['' , ''];
+        [ this.res_pass, this.msg.mask ] = ['' , ''];
         this.res_anum = 0;
         this.res_pos = 0;
         this.dialog = false;    // dialogを閉じる
@@ -96,12 +96,12 @@ export default class Home extends Vue {
     }
 
     protected maskMsg() {
-        const char = this.res_pass.charAt(this.res_pass.length - 1);
+        const char = this.msg.mask.charAt(this.msg.mask.length - 1);
 
         // 複数回呼ばれるため一文字に対して一回だけ
         if (char !== '*') {
-            this.msg.pre += char;   // 末尾にマスク前の文字列を追加
-            this.res_pass = this.res_pass.replace(/\S/g, '*');  // 全ての文字を置き換える
+            this.res_pass += char;   // 末尾にマスク前の文字列を追加
+            this.msg.mask = this.msg.mask.replace(/\S/g, '*');  // 全ての文字を置き換える
         }
     }
 }
