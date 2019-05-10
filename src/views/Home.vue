@@ -74,7 +74,7 @@ export default class Home extends Vue {
             const jseats = JSON.parse(seat);
             this.insertNum(jseats.name, parseInt(jseats.position, 10));
             console.log(jseats.position);
-            console.log(Number instanceof jseats.position);
+            typeof(jseats.position);
         });
     }
 
