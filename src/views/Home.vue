@@ -25,7 +25,7 @@ v-layout#Home(fill-height column)
                                             v-card-actions(xs12 sm8 md6)
                                                 v-btn(color='blue darken-1' flat @click='onSend') Send
                                             v-card-actions(xs12 sm4 md6)
-                                                v-btn(color='blue darken-1' flat @click='false') Cancel
+                                                v-btn(color='blue darken-1' flat @click='dialog=false') Cancel
                     v-layout(justify-center column)
                         v-flex
                             v-layout(row wrap align-center justify-space-around)
