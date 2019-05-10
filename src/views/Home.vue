@@ -61,13 +61,15 @@ export default class Home extends Vue {
         for (let i = 0; i < 43; i++) {
             this.num[i] = String(i + 1);
         }
-        this.socket.on('all_seats' , (seats: any) => {
-            for (const seat of seats) {
+        this.socket.on('all_seats' , (seats: string) => {
+            const jseats = JSON.parse(seats);
+            for (const seat of jseats) {
                 this.insertNum(seat.name, seat.position);
             }
         });
-        this.socket.on('new_seat', (seat: any) => {
-            this.insertNum(seat.name, seat.position);
+        this.socket.on('new_seat', (seat: string) => {
+            const jseats = JSON.parse(seat);
+            this.insertNum(jseats.name, jseats.position);
         });
     }
 
@@ -83,7 +85,7 @@ export default class Home extends Vue {
         };
 
         this.socket.emit('res_seat', JSON.stringify(myJson));
-        console.log(myJson);
+        // console.log(myJson);
         [ this.res_pass, this.msg.mask ] = ['' , ''];
         this.res_anum = 0;
         this.res_pos = 0;
@@ -95,7 +97,7 @@ export default class Home extends Vue {
         //     this.num[i] = (`${i + 1}`);
         // }
         this.num[pos] = name;
-        console.log(this.num[pos]);
+        // console.log(this.num[pos]);
     }
 
     protected maskMsg() {
@@ -105,7 +107,7 @@ export default class Home extends Vue {
         if (char !== '*') {
             this.res_pass += char;   // 末尾にマスク前の文字列を追加
             this.msg.mask = this.msg.mask.replace(/\S/g, '*');  // 全ての文字を置き換える
-            console.log(this.res_pass);
+            // console.log(this.res_pass);
         }
     }
 }
