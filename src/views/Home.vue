@@ -5,30 +5,35 @@ v-layout#Home(fill-height column)
             v-container(fluid)
                 v-card.ma-3.pa-1
                     v-layout(justify-center)
-                        v-card.orange.lighten-3.ma-2(width='15vw' :aspect-ratio='9/16')
-                            v-card-text 教卓
+                        v-dialog(v-model='dialog' presistent max-width='600px')
+                            template(v-slot:activator='{ on }')
+                                v-card.orange.lighten-3.ma-2(width='15vw' :aspect-ratio='9/16')
+                                    v-card-text(v-on='on') 教卓
+                            //- dialog card information
+                            v-card
+                                v-card-title
+                                    span.headline Chair Information
+                                v-card-text
+                                    v-container(grid-list-md)
+                                        v-layout(wrap)
+                                            v-flex(xs12 sm12 md12)
+                                                v-text-field(label='出席番号' v-model='res_anum')
+                                            v-flex(xs12 sm12 md12)
+                                                v-text-field(label='position-number' v-model='res_pos' required)
+                                            v-flex(xs12 sm12 md12)
+                                                v-text-field(label='password' v-model='res_pass' required)
+                                    v-card-actions
+                                        v-btn(color='blue darken-1' flat @click='onSend') Send
+                                    v-card-actions
+                                        v-btn(color='blue darken-1' flat @click='false') Cancel
                     v-layout(justify-center column)
                         v-flex
                             v-layout(row wrap align-center justify-space-around)
                                 v-dialog(v-model='dialog' presistent max-width='600px')
                                     template(v-slot:activator='{ on }')
-                                        v-card.primary.lighten-4.mb-2(v-for='member in 43' :key='member' v-on='on' width='calc(100vw/7.5)' :aspect-ratio='1' @click='onClick(member)')
-                                            v-card-text(canter) {{ member }}
-                                    //- dialog card information
-                                    v-card
-                                        v-card-title
-                                            span.headline Chair Information
-                                        v-card-text
-                                            v-container(grid-list-md)
-                                                v-layout(wrap)
-                                                    v-flex(xs12 sm8 md8)
-                                                        v-text-field(label='First name' v-model='hoge.name')
-                                                    v-flex(xs12 sm4 md4)
-                                                        v-text-field(label='Attendance number' v-model='hoge.an' required)
-                                            v-card-actions
-                                                v-spacer
-                                                v-btn(color='blue darken-1' flat @click='false') Save
-                                                v-btn(color='blue darken-1' flat @click='false') Close
+                                        v-card.primary.lighten-4.mb-2(v-for='i in num' :key='i' width='calc(100vw/7.5)' :aspect-ratio='1')
+                                            v-card-text(canter) {{ i }}
+
 
     p hoge {{this.hoge}}
     //- p huga {{this.huga}}
@@ -39,6 +44,7 @@ v-layout#Home(fill-height column)
 <script lang='ts'>
 import { Component, Vue } from 'vue-property-decorator';
 import HelloWorld from '@/components/HelloWorld.vue';
+import io from 'socket.io-client';
 
 @Component({
     components: {
@@ -52,16 +58,58 @@ export default class Home extends Vue {
     protected an = 0 ;
     protected dialog = false;
     protected text = '';
+    protected num = [] as string[];
+    protected position = 0;
+    protected socket = io();
+    protected res_anum = 0;
+    protected res_pos = 0;
+    protected res_pass = 0;
+    protected msg = '';
 
-    protected onClick(member: number) {
-        this.hoge = member;
+    protected created() {
+        for (let i = 0; i < 43; i++) {
+            this.num[i] = String(i + 1);
+        }
+        this.socket.on('all_seats' , (seats: any) => {
+            for (const seat of seats) {
+                this.insertNum(seat.name, seat.position);
+            }
+        });
+        this.socket.on('new_seat', (seat: any) => {
+            this.insertNum(seat.name, seat.position);
+        });
     }
+
+    protected onSend() {
+        if (this.res_anum === 0 || this.res_pos === 0 || this.res_pass === 0) {
+            return;
+        }
+
+        const myJson = {
+            id: this.res_anum,
+            position: this.res_pos,
+            passward: this.res_pass,
+        };
+        this.socket.emit('res_seat', JSON.stringify(myJson));
+    }
+    protected insertNum(name: string, pos: number ) {
+        // for (let i = 0; i < 43; i++) {
+        //     this.num[i] = (`${i + 1}`);
+        // }
+
+        this.num[pos] = name;
+    }
+
+    // protected onClick(i: number) {
+    //     this.res_ = i;
+    // }
     protected change(member: number, hoge: number) {
         this.huga = hoge;
         hoge = member;
         member = this.huga;
         this.dialog = false;
     }
+
 }
 </script>
 
